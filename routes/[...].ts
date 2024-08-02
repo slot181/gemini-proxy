@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
 
   // 确定 API 版本
   let apiPath = url.pathname
-  if (!apiPath.startsWith('/v1') && !apiPath.startsWith('/v1beta')) {
+  if (!apiPath.startsWith('/v1beta') && !apiPath.startsWith('/v1beta')) {
     apiPath = DEFAULT_API_VERSION + apiPath
   }
 

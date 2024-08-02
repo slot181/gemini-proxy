@@ -1,19 +1,16 @@
 const BASE_URL = 'https://generativelanguage.googleapis.com'
-const DEFAULT_API_VERSION = '/v1beta' // 默认 API 版本
+const API_VERSION = '/v1beta' // 强制使用 v1beta 版本
 
 export default defineEventHandler(async (event) => {
   const url = getRequestURL(event)
   const headers = getRequestHeaders(event)
   const body = await readRawBody(event)
 
-  // 确定 API 版本
-  let apiPath = url.pathname
-  if (!apiPath.startsWith('/v1beta') && !apiPath.startsWith('/v1')) {
-    apiPath = DEFAULT_API_VERSION + apiPath
-  }
-
-  // 构建完整的 URL
-  const fullUrl = BASE_URL + apiPath + url.search
+  // 移除原始路径中可能存在的版本信息
+  let apiPath = url.pathname.replace(/^\/v1(beta)?/, '')
+  
+  // 构建完整的 URL，强制使用 v1beta
+  const fullUrl = BASE_URL + API_VERSION + apiPath + url.search
 
   try {
     // 发送代理请求
